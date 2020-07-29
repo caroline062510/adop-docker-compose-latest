@@ -6,7 +6,6 @@ proxy:
   restart: on-failure:5
   #image: accenture/adop-nginx:0.3.5
   image: jaganthoutam/adop-nginx:latest
-  pids_limit: 100
   read_only: true
   #build: ../images/docker-nginx/
   net: ${CUSTOM_NETWORK_NAME}
@@ -33,7 +32,6 @@ ldap:
   restart: on-failure:5
   #build: ../images/docker-ldap/
   image: accenture/adop-ldap:0.2.1
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
@@ -59,7 +57,6 @@ gitlab-postgresql:
   container_name: gitlab-postgresql
   restart: on-failure:5
   image: postgres:9.6.9-alpine
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
@@ -77,7 +74,6 @@ gitlab:
   container_name: gitlab
   restart: on-failure:5
   image: jaganthoutam/adop-gitlab:latest
-  pids_limit: 100
   read_only: true
   hostname: gitlab
   links:
@@ -133,7 +129,6 @@ gitlab-redis:
   container_name: gitlab-redis
   restart: on-failure:5
   image: redis:3.2.12-alpine
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
@@ -147,7 +142,6 @@ sonar-mysql:
   container_name: sonar-mysql
   restart: on-failure:5 
   image: mysql:5.6.25
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
@@ -166,7 +160,6 @@ sonar:
   container_name: sonar
   restart: on-failure:5
   image: jaganthoutam/adop-sonar:latest
-  pids_limit: 100
   read_only: true
   #image: accenture/adop-sonar:0.4.3
   #build: ../images/docker-sonar/
@@ -198,7 +191,6 @@ jenkins:
   restart: on-failure:5
   #image: accenture/adop-jenkins:0.3.6
   image: jaganthoutam/adop-jenkins:latest
-  pids_limit: 100
   read_only: true
   #build: ../images/docker-jenkins/
   net: ${CUSTOM_NETWORK_NAME}
@@ -260,7 +252,6 @@ jenkins-slave:
   container_name: jenkins-slave
   restart: on-failure:5
   image: jaganthoutam/adop-jenkins-slave:latest
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   privileged: true
@@ -280,7 +271,6 @@ selenium-hub:
   container_name: selenium-hub
   restart: on-failure:5
   image: selenium/hub:2.53.0
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
@@ -294,7 +284,6 @@ selenium-node-chrome:
   container_name: selenium-node-chrome
   restart: on-failure:5
   image: selenium/node-chrome:2.53.0
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   user: kong
@@ -311,7 +300,6 @@ selenium-node-firefox:
   container_name: selenium-node-firefox
   restart: on-failure:5
   image: selenium/node-firefox:2.53.0
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   user: kong
@@ -328,7 +316,6 @@ nexus:
   container_name: nexus
   restart: on-failure:5
   image: jaganthoutam/adop-nexus:latest
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
@@ -354,7 +341,6 @@ ldap-ltb:
   container_name: ldap-ltb
   restart: on-failure:5
   image: accenture/adop-ldap-ltb:0.1.0
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
@@ -373,7 +359,6 @@ ldap-phpadmin:
   container_name: ldap-phpadmin
   restart: on-failure:5
   image: accenture/adop-ldap-phpadmin:0.1.0
-  pids_limit: 100
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   expose:
