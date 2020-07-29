@@ -27,11 +27,6 @@ proxy:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 ldap:
   container_name: ldap
@@ -59,11 +54,6 @@ ldap:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5 
 
 gitlab-postgresql:
   container_name: gitlab-postgresql
@@ -82,11 +72,6 @@ gitlab-postgresql:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: pg_isready -U ${GITLAB_POSTGRES_USER} && psql -d ${GITLAB_POSTGRES_DB} -U ${GITLAB_POSTGRES_USER} -c "SELECT 1=1"
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 gitlab:
   container_name: gitlab
@@ -143,11 +128,6 @@ gitlab:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 gitlab-redis:
   container_name: gitlab-redis
@@ -162,11 +142,6 @@ gitlab-redis:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 sonar-mysql:
   container_name: sonar-mysql
@@ -186,11 +161,6 @@ sonar-mysql:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 sonar:
   container_name: sonar
@@ -222,11 +192,6 @@ sonar:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 jenkins:
   container_name: jenkins
@@ -290,11 +255,6 @@ jenkins:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: jenkins health
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 jenkins-slave:
   container_name: jenkins-slave
@@ -315,11 +275,6 @@ jenkins-slave:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 selenium-hub:
   container_name: selenium-hub
@@ -334,11 +289,6 @@ selenium-hub:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 selenium-node-chrome:
   container_name: selenium-node-chrome
@@ -356,11 +306,6 @@ selenium-node-chrome:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 selenium-node-firefox:
   container_name: selenium-node-firefox
@@ -378,11 +323,6 @@ selenium-node-firefox:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 nexus:
   container_name: nexus
@@ -409,11 +349,6 @@ nexus:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 ldap-ltb:
   container_name: ldap-ltb
@@ -433,11 +368,6 @@ ldap-ltb:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
 
 ldap-phpadmin:
   container_name: ldap-phpadmin
@@ -458,8 +388,3 @@ ldap-phpadmin:
   security_opt:
     - apparmor:docker-default
     - no-new-privileges:true    
-  healthcheck:
-    test: ["CMD", "/usr/bin/healthcheck"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
