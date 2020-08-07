@@ -3,19 +3,14 @@
 
 proxy:
   container_name: proxy
-  restart: on-failure:5
+  restart: always
   #image: accenture/adop-nginx:0.3.5
   image: jaganthoutam/adop-nginx:latest
-  cpu_shares: 512
-  mem_limit: 1g
-  read_only: true
-  privileged: false
   #build: ../images/docker-nginx/
   net: ${CUSTOM_NETWORK_NAME}
   ports:
-    - "192.168.0.0:80:80"
-    - "192.168.0.0:443:443"
-  user: kong
+    - "80:80"
+    - "443:443"
   environment:
     - "constraint:tier==public"
     - "LDAP_SERVER=${LDAP_SERVER}"
@@ -26,25 +21,17 @@ proxy:
     - "LDAP_USER_ID_ATTRIBUTE=cn"
     - "LDAP_USER_OBJECT_CLASS=inetOrgPerson"
     - "DOCKER_NETWORK=${DOCKER_NETWORK_GW}"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true
 
 ldap:
   container_name: ldap
-  restart: on-failure:5
+  restart: always
   #build: ../images/docker-ldap/
   image: accenture/adop-ldap:0.2.1
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "389"
   ports:
-    - "192.168.0.0:389:389/tcp"
-  user: kong
+    - "389:389/tcp"
   environment:
     INITIAL_ADMIN_USER: ${INITIAL_ADMIN_USER}
     INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD}
@@ -55,38 +42,23 @@ ldap:
     SLAPD_PASSWORD: ${LDAP_PWD}
     SLAPD_DOMAIN: ${LDAP_DOMAIN}
     SLAPD_FULL_DOMAIN: ${LDAP_FULL_DOMAIN}
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 gitlab-postgresql:
   container_name: gitlab-postgresql
-  restart: on-failure:5
+  restart: always
   image: postgres:9.6.9-alpine
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "5432"
-  user: kong
   environment:
     POSTGRES_USER: ${GITLAB_POSTGRES_USER}
     POSTGRES_PASSWORD: ${PASSWORD_POSTGRESQL}
     POSTGRES_DB: ${GITLAB_POSTGRES_DB}
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 gitlab:
   container_name: gitlab
-  restart: on-failure:5
+  restart: always
   image: jaganthoutam/adop-gitlab:latest
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   hostname: gitlab
   links:
     - gitlab-postgresql:postgresql
@@ -95,7 +67,6 @@ gitlab:
   expose:
     - "80"
     - "22"
-  user: kong
   environment:
     INITIAL_ADMIN_USER: ${INITIAL_ADMIN_USER}
     INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD_PLAIN}
@@ -133,61 +104,37 @@ gitlab:
          base: '${LDAP_FULL_DOMAIN}'
          signin_enabled: false
      EOS
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 gitlab-redis:
   container_name: gitlab-redis
-  restart: on-failure:5
+  restart: always
   image: redis:3.2.12-alpine
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "6379"
-  user: kong
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 sonar-mysql:
   container_name: sonar-mysql
-  restart: on-failure:5 
+  restart: always
   image: mysql:5.6.25
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "3306"
-  user: kong
   environment:
     MYSQL_ROOT_PASSWORD: ${PASSWORD_SQL}
     MYSQL_USER: ${SONAR_MYSQL_USER}
     MYSQL_PASSWORD: ${SONAR_MYSQL_PASSWORD}
     MYSQL_DATABASE: ${SONAR_MYSQL_DATABASE}
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 sonar:
   container_name: sonar
-  restart: on-failure:5
+  restart: always
   image: jaganthoutam/adop-sonar:latest
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   #image: accenture/adop-sonar:0.4.3
   #build: ../images/docker-sonar/
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "9000"
-  user: kong
   environment:
     - "dependency:container==sonar-mysql"
     - "SONARQUBE_JDBC_USERNAME=${SONAR_MYSQL_USER}"
@@ -203,26 +150,19 @@ sonar:
     - "LDAP_GROUP_REQUEST=(&(objectClass=groupOfUniqueNames)(uniqueMember={dn}))"
     - "LDAP_GROUP_ID_ATTRIBUTE=cn"
     - "SONARQUBE_JDBC_URL=jdbc:mysql://sonar-mysql:3306/${SONAR_MYSQL_DATABASE}?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 jenkins:
   container_name: jenkins
-  restart: on-failure:5
+  restart: always
   #image: accenture/adop-jenkins:0.3.6
   image: jaganthoutam/adop-jenkins:latest
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
   #build: ../images/docker-jenkins/
   net: ${CUSTOM_NETWORK_NAME}
   ports:
-    - "192.168.0.0:50000:50000/tcp"
+    - "50000:50000/tcp"
   expose:
     - "8080"
     - "50000"
-  user: kong
   privileged: true
   environment:
     JENKINS_OPTS: "--prefix=/jenkins"
@@ -267,20 +207,13 @@ jenkins:
     DOCKER_NETWORK_NAME: ${CUSTOM_NETWORK_NAME}
     CARTRIDGE_SOURCES: ${CARTRIDGE_SOURCES}
     ADOP_PLATFORM_MANAGEMENT_VERSION: "f922a490fbaf2856c4745a5185a3e6e9870f7944"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 jenkins-slave:
   container_name: jenkins-slave
-  restart: on-failure:5
+  restart: always
   image: jaganthoutam/adop-jenkins-slave:latest
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   privileged: true
-  user: kong
   environment:
     MASTER: "http://jenkins:8080/jenkins"
     SLAVE_LABELS: "aws ldap java8 docker"
@@ -288,76 +221,44 @@ jenkins-slave:
     SLAVE_EXECUTORS: ${SLAVE_EXECUTORS}
     INITIAL_ADMIN_USER: ${INITIAL_ADMIN_USER}
     INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD_PLAIN}
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 selenium-hub:
   container_name: selenium-hub
-  restart: on-failure:5
+  restart: always
   image: selenium/hub:2.53.0
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "4444"
-  user: kong
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 selenium-node-chrome:
   container_name: selenium-node-chrome
-  restart: on-failure:5
+  restart: always
   image: selenium/node-chrome:2.53.0
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
-  user: kong
   environment:
     SE_OPTS: "-nodeConfig /var/selenium-config/config-chrome.json"
     REMOTE_HOST: "http://selenium-node-chrome:5555"
     HUB_PORT_4444_TCP_ADDR: "selenium-hub"
     HUB_PORT_4444_TCP_PORT: "4444"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 selenium-node-firefox:
   container_name: selenium-node-firefox
-  restart: on-failure:5
+  restart: always
   image: selenium/node-firefox:2.53.0
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
-  user: kong
   environment:
     SE_OPTS: "-nodeConfig /var/selenium-config/config-firefox.json"
     REMOTE_HOST: "http://selenium-node-firefox:5555"
     HUB_PORT_4444_TCP_ADDR: "selenium-hub"
     HUB_PORT_4444_TCP_PORT: "4444"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 nexus:
   container_name: nexus
-  restart: on-failure:5
+  restart: always
   image: jaganthoutam/adop-nexus:latest
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "8081"
-  user: kong
   environment:
     NEXUS_BASE_URL: "${PROTO}://${TARGET_HOST}/nexus"
     NEXUS_CONTEXT: "nexus"
@@ -370,49 +271,31 @@ nexus:
     LDAP_USER_PASSWORD_ATTRIBUTE: "userPassword"
     LDAP_USER_BASE_DN: "${LDAP_USER_BASE_DN}"
     LDAP_GROUP_BASE_DN: "${LDAP_GROUP_BASE_DN}"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 ldap-ltb:
   container_name: ldap-ltb
-  restart: on-failure:5
+  restart: always
   image: accenture/adop-ldap-ltb:0.1.0
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "80"
-  user: kong
   environment:
     LDAP_LTB_URL: "ldap://${LDAP_SERVER}"
     LDAP_LTB_DN: "${LDAP_ADMIN},${LDAP_FULL_DOMAIN}"
     LDAP_LTB_PWD: "${LDAP_PWD}"
     LDAP_LTB_BS: "${LDAP_FULL_DOMAIN}"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
 
 ldap-phpadmin:
   container_name: ldap-phpadmin
-  restart: on-failure:5
+  restart: always
   image: accenture/adop-ldap-phpadmin:0.1.0
-  cpu_shares: 512
-  mem_limit: 1g  
-  read_only: true
-  privileged: false
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "80"
-  user: kong
   environment:
     LDAP_SERVER_NAME: "LDAP"
     LDAP_SERVER_HOST: "ldap"
     LDAP_SERVER_PORT: "389"
     LDAP_SERVER_BIND_ID: "${LDAP_ADMIN},${LDAP_FULL_DOMAIN}"
     LDAP_SERVER_BASE_DN: "${LDAP_FULL_DOMAIN}"
-  security_opt:
-    - apparmor:docker-default
-    - no-new-privileges:true    
+
