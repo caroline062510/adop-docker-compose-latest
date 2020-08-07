@@ -7,7 +7,7 @@ proxy:
   #image: accenture/adop-nginx:0.3.5
   image: jaganthoutam/adop-nginx:latest
   cpu_shares: 512
-  mem_limit: 1000000
+  mem_limit: 1Gi
   read_only: true
   privileged: false
   #build: ../images/docker-nginx/
@@ -36,7 +36,7 @@ ldap:
   #build: ../images/docker-ldap/
   image: accenture/adop-ldap:0.2.1
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -64,7 +64,7 @@ gitlab-postgresql:
   restart: on-failure:5
   image: postgres:9.6.9-alpine
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -84,7 +84,7 @@ gitlab:
   restart: on-failure:5
   image: jaganthoutam/adop-gitlab:latest
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   hostname: gitlab
@@ -142,7 +142,7 @@ gitlab-redis:
   restart: on-failure:5
   image: redis:3.2.12-alpine
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -158,7 +158,7 @@ sonar-mysql:
   restart: on-failure:5 
   image: mysql:5.6.25
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -179,7 +179,7 @@ sonar:
   restart: on-failure:5
   image: jaganthoutam/adop-sonar:latest
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   #image: accenture/adop-sonar:0.4.3
@@ -213,7 +213,7 @@ jenkins:
   #image: accenture/adop-jenkins:0.3.6
   image: jaganthoutam/adop-jenkins:latest
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   #build: ../images/docker-jenkins/
   net: ${CUSTOM_NETWORK_NAME}
@@ -276,7 +276,7 @@ jenkins-slave:
   restart: on-failure:5
   image: jaganthoutam/adop-jenkins-slave:latest
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   net: ${CUSTOM_NETWORK_NAME}
   privileged: true
@@ -297,7 +297,7 @@ selenium-hub:
   restart: on-failure:5
   image: selenium/hub:2.53.0
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -313,7 +313,7 @@ selenium-node-chrome:
   restart: on-failure:5
   image: selenium/node-chrome:2.53.0
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -332,7 +332,7 @@ selenium-node-firefox:
   restart: on-failure:5
   image: selenium/node-firefox:2.53.0
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -351,7 +351,7 @@ nexus:
   restart: on-failure:5
   image: jaganthoutam/adop-nexus:latest
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -379,7 +379,7 @@ ldap-ltb:
   restart: on-failure:5
   image: accenture/adop-ldap-ltb:0.1.0
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
@@ -400,7 +400,7 @@ ldap-phpadmin:
   restart: on-failure:5
   image: accenture/adop-ldap-phpadmin:0.1.0
   cpu_shares: 512
-  mem_limit: 1000000  
+  mem_limit: 1Gi  
   read_only: true
   privileged: false
   net: ${CUSTOM_NETWORK_NAME}
